@@ -17,3 +17,8 @@ for i in H:
 K=[m+n for m in 'abc' for n in 'def']
 for i in K:
     print(i)
+#大写转小写
+L=['hello','world',18,'IBM','Apple']
+l=[ x.lower() for x in L if isinstance(x,str)]
+for i in l:
+    print(i)
