@@ -9,6 +9,7 @@ ls =os.linesep
 #get filename
 
 while True:
+    fname=raw_input();
     if os.path.exists(fname):
         print "ERROR: '%s' already exists" % fname
     else :
