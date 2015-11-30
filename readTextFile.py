@@ -7,6 +7,8 @@
 
 fname=raw_input('Enter filename:')
 
+print
+
 #attempt to open file for reading
 
 try:
