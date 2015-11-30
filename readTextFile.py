@@ -18,5 +18,3 @@ else:
     for eachLine in fobj:
         print eachLine,
     fobj.close()
-
-
