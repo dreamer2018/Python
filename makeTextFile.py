@@ -29,4 +29,10 @@ while True:
     else:
         all.append(entry)
 
+#write lines to file with proper line-ending
+
+fobj=open(fname,'w')
+fobj.writelines(['%s%s'%(x,ls) for x in all])
+fobj.close()
+print 'DONE!'
 
