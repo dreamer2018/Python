@@ -20,4 +20,13 @@ all=[]
 
 print "\n Enter lines ('.' by itself to quit).\n"
 
+#loop untile user terminates input
+
+while True:
+    entry=raw_input('>')
+    if entry=='.':
+        break
+    else:
+        all.append(entry)
+
 
