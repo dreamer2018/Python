@@ -21,6 +21,7 @@ def gettime():
     return now_hour,now_min,now_sec
 def timeer():
     hour,minute,second=gettime()
+   # print hour
     if hour < 12:
         sleeptime=(12-hour)*3600-minute*60-second
         time.sleep(sleeptime)
@@ -29,7 +30,8 @@ def timeer():
         sleeptime=(24-hour)*3600-minute*60-second
         #timer=threading.Timer(sleeptime,mysqldump)
         #timer.start()
-        time.sleep(sleeptime)
+    #    print sleeptime
+	time.sleep(sleeptime)
         mysqldump()
 def main():
     while True:
