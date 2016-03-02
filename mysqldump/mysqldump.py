@@ -10,7 +10,7 @@ import os
 import time
 from conf import *
 def mysqldump():
-    filename=str(time.strftime("%Y%m%H%M%S",time.localtime(time.time())))
+    filename=str(time.strftime("%Y%m%d%H%M%S",time.localtime(time.time())))
     filename='dump/'+filename
     dump_commond="mysqldump -u "+username+" -p"+passwd+" "+database+" > "+filename+".sql"
     os.system(dump_commond)
