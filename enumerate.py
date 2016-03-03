@@ -16,3 +16,4 @@ for element in seq:
 for i,element in enumerate(seq):
     print i,seq[i]
     print element
+print type(enumerate(seq))
