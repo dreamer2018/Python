@@ -15,4 +15,4 @@ for element in seq:
     i+=1
 for i,element in enumerate(seq):
     print i,seq[i]
-
+    print element
