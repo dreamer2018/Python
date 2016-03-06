@@ -23,4 +23,9 @@ print '最近访问时间：',os.path.getatime(sys.argv[1])
 print '文件创建时间：',os.path.getctime(sys.argv[1])
 print '文件修改时间：',os.path.getmtime(sys.argv[1])
 print '文件大小(字节):',os.path.getsize(sys.argv[1])
+if(os.path.isabs(sys.argv[1])):
+    print '是绝对路径'
+else:
+    print '不是绝对路径'
+
 
