@@ -6,9 +6,10 @@
 # Blog: blog.csdn.net/it_dream_er
 # Function:
 # Created Time: 2016年03月06日 星期日 22时09分36秒
-import time
+#import time
 try:
-    time.sleep(100)
-except KeyboardInterrupt,e:
-    print "Error"
+    #time.sleep(100)
+    f=open('1.txat','r')
+except ( IOError,KeyboardInterrupt),e:
+    print "Error:",e
 
