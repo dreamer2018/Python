@@ -6,12 +6,10 @@
 # Blog: blog.csdn.net/it_dream_er
 # Function:
 # Created Time: 2016年01月16日 星期六 06时03分30秒
-from functools import reduce
-def f(x,y):
-    return x+y
-list=[]
-for i in range(1,101):
-    list.append(i)
-#print list
-l=reduce(f,list)
+list=[-2,8,-4,7,-9,2,6,5]
+l=sorted(list)
+print(l)
+l=sorted(list,key=abs)
+print(l)
+l=sorted(list,key=abs,reverse=True)
 print(l)
