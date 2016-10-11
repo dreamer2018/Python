@@ -260,10 +260,9 @@ def Recognition(FileName):
                     string = ""
                     Save(':')
             elif read == '+':
-                #sign = 3
                 Save(string)
                 string = "+"
-                # Save('+')
+                Save('+')
             elif read == '=':
                 Save(string)
                 string = ""
