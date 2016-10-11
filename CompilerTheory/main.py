@@ -1,5 +1,11 @@
 #!/usr/bin/env python3.4
+# coding=utf-8
+import sys
+
+
 keywards = {}
+
+# 关键字部分
 keywards['False'] = 101
 keywards['class'] = 102
 keywards['finally'] = 103
@@ -34,4 +40,80 @@ keywards['except'] = 131
 keywards['in'] = 132
 keywards['raise'] = 133
 
-print(keywards['in'])
+# 符号
+keywards['+'] = 201
+keywards['-'] = 202
+keywards['*'] = 203
+keywards['/'] = 204
+keywards['='] = 205
+keywards[':'] = 206
+keywards['<'] = 207
+keywards['>'] = 208
+keywards['<='] = 209
+keywards['>='] = 210
+keywards['%'] = 211
+keywards['&'] = 212
+keywards['!'] = 213
+keywards['('] = 214
+keywards[')'] = 215
+keywards['['] = 216
+keywards[']'] = 217
+keywards['{'] = 218
+keywards['}'] = 219
+keywards['#'] = 220
+keywards['++'] = 220
+keywards['--'] = 221
+keywards['|'] = 222
+keywards[','] = 223
+keywards['=='] = 224
+keywards['!='] = 225
+keywards['"""'] = 226
+# 变量
+keywards['var'] = 301
+
+# 常量
+keywards['const'] = 401
+
+# 预处理函数，将文件中的空格，换行等无关字符处理掉
+def Pretreatment(file_name):
+    try:
+        fp_read = open(file_name,'r')
+        fp_write = open('file.tmp','w')
+        sign = 0
+        while (1):
+            read = fp_read.read(1)
+            if not read:
+                break
+            if read == '#':
+                sign = 1
+            elif read == '\n':
+                if sign == 1:
+                    sign = 6
+                else:
+                    sign = 2
+            elif (read == ' ' or read == '\t') and (sign != 1 and sign != 4) :   # 此处屏蔽掉注释
+                if sign == 3 :
+                    sign = 5
+                else:
+                    sign = 3
+            # elif i == '"""' and sign != 4:
+            #     if sign != 4 :
+            #         sign = 0
+            #     else:
+            #         sign = 4
+
+            if sign == 2 :
+                read = ' '
+                sign = 3
+            if sign != 1:
+                fp_write.write(read)
+
+    except Exception as e:
+        print(file_name,': This FileName Not Found!')
+def main():
+    if(len(sys.argv) < 2 ):
+        print("Please Input FileName")
+    else:
+        Pretreatment(sys.argv[1])
+if __name__ == '__main__':
+    main()
