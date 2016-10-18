@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.4
 # coding=utf-8
 import sys
+import string
 
 keywards = {}
 
@@ -48,25 +49,18 @@ keywards['='] = 205
 keywards[':'] = 206
 keywards['<'] = 207
 keywards['>'] = 208
-keywards['<='] = 209
-keywards['>='] = 210
-keywards['%'] = 211
-keywards['&'] = 212
-keywards['!'] = 213
-keywards['('] = 214
-keywards[')'] = 215
-keywards['['] = 216
-keywards[']'] = 217
-keywards['{'] = 218
-keywards['}'] = 219
-keywards['#'] = 220
-keywards['|'] = 221
-keywards[','] = 222
-keywards['=='] = 223
-keywards['!='] = 224
-keywards['"""'] = 225
-keywards['+='] = 226
-keywards['-='] = 227
+keywards['%'] = 209
+keywards['&'] = 210
+keywards['!'] = 211
+keywards['('] = 212
+keywards[')'] = 213
+keywards['['] = 214
+keywards[']'] = 215
+keywards['{'] = 216
+keywards['}'] = 217
+keywards['#'] = 218
+keywards['|'] = 219
+keywards[','] = 220
 # 变量
 # keywards['var'] = 301
 
@@ -80,12 +74,12 @@ signlist = {}
 
 
 # 预处理函数，将文件中的空格，换行等无关字符处理掉
-def Pretreatment(file_name):
+def pretreatment(file_name):
     try:
         fp_read = open(file_name, 'r')
         fp_write = open('file.tmp', 'w')
         sign = 0
-        while (True):
+        while True:
             read = fp_read.readline()
             if not read:
                 break
@@ -141,35 +135,54 @@ def Pretreatment(file_name):
         print(file_name, ': This FileName Not Found!')
 
 
-def Save(string):
+def save(string):
     if string in keywards.keys():
         if string not in signlist.keys():
             signlist[string] = keywards[string]
     else:
-        Save_Var(string)
+        try:
+            float(string)
+            save_const(string)
+        except ValueError:
+            save_var(string)
 
 
-def Save_Var(string):
+def save_var(string):
     if string not in signlist.keys():
         if len(string.strip()) < 1:
             pass
         else:
-            signlist[string] = 301
+            if is_signal(string) == 1:
+                signlist[string] = 301
+            else:
+                signlist[string] = 501
 
 
-def Save_Const(string):
+def save_const(string):
     if string not in signlist.keys():
         signlist[string] = 401
 
 
-def Save_Error(string):
+def save_error(string):
     if string not in signlist.keys():
         signlist[string] = 501
 
 
-def Recognition(FileName):
+def is_signal(s):
+    if s[0] == '_' or s[0] in string.ascii_letters:
+        for i in s:
+            if i in string.ascii_letters or i == '_' or i in string.digits:
+                pass
+            else:
+                return 0
+        return 1
+    else:
+        return 0
+
+
+def recognition(filename):
     try:
-        fp_read = open(FileName, 'r')
+        fp_read = open(filename, 'r')
         string = ""
         sign = 0
         while True:
@@ -185,60 +198,68 @@ def Recognition(FileName):
                     if sign == 1 or sign == 2:
                         string += read
                     else:
-                        Save(string)
+                        save(string)
                         string = ""
                         sign = 0
             elif read == '(':
                 if sign == 1 or sign == 2:
                     string += read
                 else:
-                    Save(string)
+                    save(string)
                     string = ""
-                    Save('(')
+                    save('(')
             elif read == ')':
                 if sign == 1 or sign == 2:
                     string += read
                 else:
-                    Save(string)
+                    save(string)
                     string = ""
-                    Save(')')
+                    save(')')
             elif read == '[':
                 if sign == 1 or sign == 2:
                     string += read
                 else:
-                    Save(string)
+                    save(string)
                     string = ""
-                    Save('[')
+                    save('[')
             elif read == ']':
                 if sign == 1 or sign == 2:
                     string += read
                 else:
-                    Save(string)
+                    save(string)
                     string = ""
-                    Save(']')
+                    save(']')
             elif read == '{':
                 if sign == 1 or sign == 2:
                     string += read
                 else:
-                    Save(string)
+                    save(string)
                     string = ""
-                    Save('{')
+                    save('{')
             elif read == '}':
                 if sign == 1 or sign == 2:
                     string += read
                 else:
-                    Save(string)
+                    save(string)
                     string = ""
-                    Save('}')
-            elif read == ',':
-                Save(string)
+                    save('}')
+            elif read == '<':
+                save(string)
                 string = ""
-                Save(',')
+                save('<')
+            elif read == '>':
+                save(string)
+                string = ""
+                save('>')
+            elif read == ',':
+                save(string)
+                string = ""
+                save(',')
             elif read == "'":
                 string += read
                 if sign == 1:
                     sign = 0
-                    Save(string)
+                    save_const(string)
                     string = ""
                 else:
                     if sign != 2:
@@ -247,7 +268,7 @@ def Recognition(FileName):
                 string += read
                 if sign == 2:
                     sign = 0
-                    Save(string)
+                    save_const(string)
                     string = ""
                 else:
                     if sign != 1:
@@ -256,17 +277,17 @@ def Recognition(FileName):
                 if sign == 1 or sign == 2:
                     string += read
                 else:
-                    Save(string)
+                    save(string)
                     string = ""
-                    Save(':')
+                    save(':')
             elif read == '+':
-                Save(string)
-                string = "+"
-                Save('+')
-            elif read == '=':
-                Save(string)
+                save(string)
                 string = ""
-                Save('=')
+                save('+')
+            elif read == '=':
+                save(string)
+                string = ""
+                save('=')
             else:
                 string += read
 
@@ -275,11 +296,11 @@ def Recognition(FileName):
 
 
 def main():
-    if (len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         print("Please Input FileName")
     else:
-        Pretreatment(sys.argv[1])
-    Recognition('file.tmp')
+        pretreatment(sys.argv[1])
+    recognition('file.tmp')
     for i in signlist.keys():
         print("(", signlist[i], ",", i, ")")
 
